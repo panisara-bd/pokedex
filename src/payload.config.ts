@@ -2,14 +2,16 @@ import { buildConfig } from 'payload/config';
 import path from 'path';
 // import Examples from './collections/Examples';
 import Users from './collections/Users';
+import Admins from './collections/Admins';
 
 export default buildConfig({
   serverURL: 'http://localhost:3000',
   admin: {
-    user: Users.slug,
+    user: Admins.slug,
   },
   collections: [
     Users,
+    Admins,
     // Add Collections here
     // Examples,
   ],
