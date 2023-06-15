@@ -12,8 +12,6 @@ export default buildConfig({
   collections: [
     Users,
     Admins,
-    // Add Collections here
-    // Examples,
   ],
   typescript: {
     outputFile: path.resolve(__dirname, 'payload-types.ts'),
