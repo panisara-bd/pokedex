@@ -17,3 +17,21 @@ export type User = {
 }
 
 export const getUsers = () => fetch(`${BASE_URL}/api/users`);
+
+export const signIn = (email: string, password: string) => fetch(`${BASE_URL}/api/users/sign-in`, {
+  method: 'post',
+  body: JSON.stringify({ email, password }),
+  headers: { 'content-type': 'application/json' }
+});
+
+type SignUpParams = {
+  email: string
+  username: string
+  password: string
+}
+
+export const signUp = (params: SignUpParams) => fetch(`${BASE_URL}/api/users`, {
+  method: 'post',
+  body: JSON.stringify(params),
+  headers: { 'content-type': 'application/json' }
+});
