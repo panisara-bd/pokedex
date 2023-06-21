@@ -1,6 +1,5 @@
 import { buildConfig } from 'payload/config';
 import path from 'path';
-// import Examples from './collections/Examples';
 import Users from './collections/Users';
 import Admins from './collections/Admins';
 import Pokemons from './collections/Pokemons';
@@ -21,4 +20,5 @@ export default buildConfig({
   graphQL: {
     schemaOutputFile: path.resolve(__dirname, 'generated-schema.graphql'),
   },
+  cors: ['http://localhost:3001']
 })

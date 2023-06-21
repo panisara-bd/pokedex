@@ -12,9 +12,14 @@ const processBatch = async (batchUrl: string) => {
 
   const response = await axios.get(batchUrl);
 
+  await new Promise(resolve => setTimeout(resolve, 1000));
+
   const promises = response.data.results.map(async (pokemon: PokemonType) => {
     const urlParts = pokemon.url.split('/');
     const id = urlParts[urlParts.length - 2];
+
+    const pokemonDetails = (await axios.get(pokemon.url)).data;
+    const image = pokemonDetails.sprites.other['official-artwork']?.front_default || null;
 
     try {
       await payload.create({
@@ -22,6 +27,7 @@ const processBatch = async (batchUrl: string) => {
         data: {
           name: pokemon.name,
           id: id,
+          image,
         },
       });
     } catch {
@@ -30,6 +36,7 @@ const processBatch = async (batchUrl: string) => {
         id,
         data: {
           name: pokemon.name,
+          image,
         },
       });
     }
