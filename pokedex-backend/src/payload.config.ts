@@ -3,6 +3,7 @@ import path from 'path';
 import Users from './collections/Users';
 import Admins from './collections/Admins';
 import Pokemons from './collections/Pokemons';
+import PokemonLikes from './collections/PokemonLikes';
 
 export default buildConfig({
   serverURL: 'http://localhost:3000',
@@ -12,7 +13,8 @@ export default buildConfig({
   collections: [
     Users,
     Admins,
-    Pokemons
+    Pokemons,
+    PokemonLikes,
   ],
   typescript: {
     outputFile: path.resolve(__dirname, 'payload-types.ts'),

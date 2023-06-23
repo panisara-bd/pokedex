@@ -1,33 +1,19 @@
-import { useState } from 'react';
-import { PokemonType } from 'types';
-import { searchPokemons } from '~/pokedex-backend';
+import { Form, useSubmit } from '@remix-run/react';
+import { useRef, useState } from 'react';
 
 type Props = {
   searchQuery: string;
   setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
-  setSearchResults: React.Dispatch<React.SetStateAction<PokemonType[]>>;
 };
 
-export default function SearchBar({
-  searchQuery,
-  setSearchQuery,
-  setSearchResults,
-}: Props) {
+export default function SearchBar({ searchQuery, setSearchQuery }: Props) {
   const [debounceTimeout, setDebounceTimeout] = useState<NodeJS.Timeout>();
+  const formRef = useRef<HTMLFormElement>(null);
+  const submit = useSubmit();
 
-  const getResult = async (query: string) => {
-    if (!query) {
-      setSearchResults([]);
-      return;
-    }
-
-    try {
-      const response = await searchPokemons(query);
-      const result = (await response.json()).docs;
-      setSearchResults(result);
-    } catch (error) {
-      console.error(error);
-    }
+  const getResult = (query: string) => {
+    if (!query || !formRef) return;
+    submit(formRef.current);
   };
 
   const onSearchChange = async (query: string) => {
@@ -40,7 +26,7 @@ export default function SearchBar({
   };
 
   return (
-    <div className="relative w-1/2">
+    <Form method="post" className="relative w-1/2" ref={formRef}>
       <div className="absolute w-full inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
         <svg
           aria-hidden="true"
@@ -60,7 +46,7 @@ export default function SearchBar({
       </div>
       <input
         type="search"
-        id="search"
+        name="query"
         onChange={(e) => {
           onSearchChange(e.target.value);
         }}
@@ -68,6 +54,6 @@ export default function SearchBar({
         className="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-3xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         placeholder="Search for Pokeomens i.e. Pikachu..."
       />
-    </div>
+    </Form>
   );
 }

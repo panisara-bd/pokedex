@@ -1,0 +1,41 @@
+import { V2_MetaFunction, type LoaderArgs, ActionArgs } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
+import { invalidParameterError } from '~/backend/errors.server';
+import { like } from '~/backend/like.server';
+import { getSessionFromRequest } from '~/session.server';
+
+export const meta: V2_MetaFunction = () => {
+  return [
+    { title: 'Pokemon details' },
+    { name: 'description', content: 'Selected pokemon details' },
+  ];
+};
+
+export async function action({ request, params }: ActionArgs) {
+  const session = await getSessionFromRequest(request);
+  const body = await request.formData();
+  const action = body.get('_action');
+  const pokemonId = params.pokemonId;
+  if (!pokemonId) throw invalidParameterError('Pokemon is required.');
+
+  switch(action) {
+    case 'like':
+      return await like(parseInt(pokemonId), session);
+    default:
+      throw invalidParameterError('Action is not implemented.')
+  }
+}
+
+export async function loader({ params }: LoaderArgs) {
+  return await fetch(`https://pokeapi.co/api/v2/pokemon/${params.pokemonId}`);
+}
+
+export default function PokemonDetailsRoute() {
+  const pokemon = useLoaderData();
+  console.log(pokemon);
+
+  if (!pokemon) {
+    return <h1>Oops</h1>;
+  }
+  return <h1>{pokemon.name}</h1>;
+}
