@@ -2,7 +2,7 @@ import { PokedexSession } from '~/session.server';
 import { authenticatedFetch } from './authenticatedFetch.server';
 import { forbiddenError } from './errors.server';
 
-export const like = (pokemonId: number, session: PokedexSession) => {
+export const like = (pokemonId: string, session: PokedexSession) => {
   const userId = session.get('user')?.id;
   if (!session.has('token') || !userId) {
     throw forbiddenError();
@@ -14,7 +14,7 @@ export const like = (pokemonId: number, session: PokedexSession) => {
     session,
     body: {
       pokemon: pokemonId,
-      user: session.get('user')?.id,
+      user: userId,
     },
   });
 };

@@ -36,7 +36,9 @@ export const signIn = async (
   if (!response.ok) {
     const status = response.status;
     const responseText = await response.text();
-    console.error(`Error logging in, status=${status}, responseText=${responseText}`)
+    console.error(
+      `Error logging in, status=${status}, responseText=${responseText}`
+    );
     throw internalServerError();
   }
 
@@ -73,7 +75,9 @@ export const signUp = async (params: SignUpParams) => {
   if (!response.ok) {
     const status = response.status;
     const responseText = await response.text();
-    console.error(`Error signing up, status=${status}, responseText=${responseText}`)
+    console.error(
+      `Error signing up, status=${status}, responseText=${responseText}`
+    );
     throw internalServerError();
   }
 };

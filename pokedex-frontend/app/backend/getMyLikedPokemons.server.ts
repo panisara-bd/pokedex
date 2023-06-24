@@ -14,11 +14,13 @@ export const getMyLikedPokemons = async (session: PokedexSession) => {
   }
 
   const likedPokemons: PokemonType[] = [];
-  let hasNextPage = true;
+
+  let nextPage: number | null = 1;
   do {
     const response = await authenticatedFetch({
       url: '/api/pokemon_likes',
       queryString: {
+        page: nextPage,
         where: {
           user: { equals: userId },
         },
@@ -29,8 +31,8 @@ export const getMyLikedPokemons = async (session: PokedexSession) => {
     const pokemons = result.docs.map((like) => like.pokemon);
     likedPokemons.push(...pokemons);
 
-    hasNextPage = result.hasNextPage;
-  } while (hasNextPage);
+    nextPage = result.nextPage;
+  } while (nextPage !== null);
 
   return likedPokemons;
 };

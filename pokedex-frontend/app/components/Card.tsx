@@ -1,6 +1,5 @@
 import Pokeball from './Pokeball';
 import { Link, useFetcher, useRouteLoaderData } from '@remix-run/react';
-import { like, unlike } from '~/backend.server';
 import { PokemonType } from '~/backend/types.server';
 import { LoaderData as RootLoaderData } from '~/root';
 
@@ -13,7 +12,7 @@ export default function Card({ pokemon }: Props) {
   const { id, image } = pokemon;
   const formattedName = pokemon.name.replace(/-/g, ' ');
   const likeFetcher = useFetcher();
-  const isLiked = likedPokemons.some(likedPokemon => likedPokemon.id === id);
+  const isLiked = likedPokemons.some((likedPokemon) => likedPokemon.id === id);
 
   return (
     <div className="flex flex-row flex-wrap w-80 mx-10 sm:mx-0 gap-2 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -36,7 +35,6 @@ export default function Card({ pokemon }: Props) {
             name="_action"
             value={isLiked ? 'unlike' : 'like'}
             className=" bg-slate-50 hover:bg-blue-300 flex items-center px-3 py-2 mt-4 rounded-lg"
-            onClick={() => (isLiked ? like : unlike)}
             disabled={likeFetcher.state === 'loading'}
           >
             <svg

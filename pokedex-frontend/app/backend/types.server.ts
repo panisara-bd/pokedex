@@ -5,6 +5,8 @@ export type PaginatedResponse<Collection> = {
   page: number;
   hasPrevPage: boolean;
   hasNextPage: boolean;
+  prevPage: number | null;
+  nextPage: number | null;
 };
 
 export type PokemonType = {

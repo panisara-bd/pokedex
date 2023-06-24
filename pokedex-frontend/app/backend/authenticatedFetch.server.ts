@@ -24,7 +24,9 @@ const refreshToken = async (session: PokedexSession) => {
   if (!response.ok) {
     const status = response.status;
     const responseText = await response.text();
-    console.error(`Error refreshing token, status=${status}, responseText=${responseText}`)
+    console.error(
+      `Error refreshing token, status=${status}, responseText=${responseText}`
+    );
     throw internalServerError();
   }
 

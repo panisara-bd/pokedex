@@ -23,7 +23,9 @@ export async function action({ request }: ActionArgs) {
 export default function Index() {
   const { user, likedPokemons } = useRouteLoaderData('root') as RootLoaderData;
   const [searchQuery, setSearchQuery] = useState('');
-  const searchResults = useActionData() as PaginatedResponse<PokemonType> | undefined;
+  const searchResults = useActionData() as
+    | PaginatedResponse<PokemonType>
+    | undefined;
 
   return (
     <main>
@@ -31,10 +33,7 @@ export default function Index() {
         <span className="text-center py-10 text-3xl font-bold">
           Hi {user?.username || 'Guest'}!
         </span>
-        <SearchBar
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-        />
+        <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </div>
       <div className="text-center">
         <div className="text-left inline-grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-10">

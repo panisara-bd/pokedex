@@ -2,6 +2,7 @@ import { V2_MetaFunction, type LoaderArgs, ActionArgs } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { invalidParameterError } from '~/backend/errors.server';
 import { like } from '~/backend/like.server';
+import { unlike } from '~/backend/unlike.server';
 import { getSessionFromRequest } from '~/session.server';
 
 export const meta: V2_MetaFunction = () => {
@@ -18,11 +19,13 @@ export async function action({ request, params }: ActionArgs) {
   const pokemonId = params.pokemonId;
   if (!pokemonId) throw invalidParameterError('Pokemon is required.');
 
-  switch(action) {
+  switch (action) {
     case 'like':
-      return await like(parseInt(pokemonId), session);
+      return await like(pokemonId, session);
+    case 'unlike':
+      return await unlike(pokemonId, session);
     default:
-      throw invalidParameterError('Action is not implemented.')
+      throw invalidParameterError('Action is not implemented.');
   }
 }
 

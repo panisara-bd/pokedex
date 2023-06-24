@@ -12,14 +12,12 @@ import { getSessionFromRequest, PokedexSessionUser } from './session.server';
 import { PokemonType } from './backend/types.server';
 import { getMyLikedPokemons } from './backend/getMyLikedPokemons.server';
 
-export const links: LinksFunction = () => [
-  { rel: 'stylesheet', href: styles },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
 
 export type LoaderData = {
-  user: PokedexSessionUser | undefined
-  likedPokemons: PokemonType[]
-}
+  user: PokedexSessionUser | undefined;
+  likedPokemons: PokemonType[];
+};
 
 export async function loader({ request }: LoaderArgs) {
   const session = await getSessionFromRequest(request);
@@ -30,10 +28,10 @@ export async function loader({ request }: LoaderArgs) {
 
 export default function App() {
   return (
-    <html lang='en'>
+    <html lang="en">
       <head>
-        <meta charSet='utf-8' />
-        <meta name='viewport' content='width=device-width,initial-scale=1' />
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
       </head>
