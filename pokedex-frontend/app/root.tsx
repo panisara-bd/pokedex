@@ -10,7 +10,7 @@ import {
 } from '@remix-run/react';
 import { getSessionFromRequest, PokedexSessionUser } from './session.server';
 import { PokemonType } from './backend/types.server';
-import { getMyLikedPokemons } from './backend/getMyLikedPokemons.server';
+import { getMyLikedPokemons } from './backend/getLikes.server';
 
 export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
 

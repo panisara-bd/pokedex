@@ -1,6 +1,7 @@
 import { V2_MetaFunction, type LoaderArgs, ActionArgs } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { invalidParameterError } from '~/backend/errors.server';
+import { getLikes } from '~/backend/getLikes.server';
 import { like } from '~/backend/like.server';
 import { unlike } from '~/backend/unlike.server';
 import { getSessionFromRequest } from '~/session.server';
@@ -30,7 +31,13 @@ export async function action({ request, params }: ActionArgs) {
 }
 
 export async function loader({ params }: LoaderArgs) {
-  return await fetch(`https://pokeapi.co/api/v2/pokemon/${params.pokemonId}`);
+  const [pokemon, likes] = await Promise.all([
+    fetch(`https://pokeapi.co/api/v2/pokemon/${params.pokemonId}`),
+    getLikes(params.pokemonId!, 'pokemon'),
+  ]);
+
+  const likedByUsers = likes.map((like) => like.user.username);
+  return { pokemon, likedByUsers };
 }
 
 export default function PokemonDetailsRoute() {
