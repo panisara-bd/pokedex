@@ -17,6 +17,8 @@ export const getLikes = async (id: string, type: 'pokemon' | 'user') => {
       },
     });
 
+    if (!response.ok) break;
+
     const result: PaginatedResponse<PokemonLikeType> = await response.json();
     likes.push(...result.docs);
 

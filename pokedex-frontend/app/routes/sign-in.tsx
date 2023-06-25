@@ -52,7 +52,7 @@ export default function SignInRoute() {
   const error = useActionData();
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900 w-screen h-screen">
+    <section>
       <div className=" relative flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 bg-scroll">
         <Pokeball className="z-0 absolute top-50 w-11/12 sm:w-3/5 fill-blue-400 opacity-10" />
         <a

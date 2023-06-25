@@ -1,17 +1,9 @@
-import { V2_MetaFunction, type LoaderArgs, ActionArgs } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { type LoaderArgs, ActionArgs } from '@remix-run/node';
 import { invalidParameterError } from '~/backend/errors.server';
 import { getLikes } from '~/backend/getLikes.server';
 import { like } from '~/backend/like.server';
 import { unlike } from '~/backend/unlike.server';
 import { getSessionFromRequest } from '~/session.server';
-
-export const meta: V2_MetaFunction = () => {
-  return [
-    { title: 'Pokemon details' },
-    { name: 'description', content: 'Selected pokemon details' },
-  ];
-};
 
 export async function action({ request, params }: ActionArgs) {
   const session = await getSessionFromRequest(request);
@@ -38,14 +30,4 @@ export async function loader({ params }: LoaderArgs) {
 
   const likedByUsers = likes.map((like) => like.user.username);
   return { pokemon, likedByUsers };
-}
-
-export default function PokemonDetailsRoute() {
-  const pokemon = useLoaderData();
-  console.log(pokemon);
-
-  if (!pokemon) {
-    return <h1>Oops</h1>;
-  }
-  return <h1>{pokemon.name}</h1>;
 }

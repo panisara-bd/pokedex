@@ -25,3 +25,11 @@ export type PokemonLikeType = {
   pokemon: PokemonType;
   user: UserType;
 };
+
+export type NotificationType = {
+  id: string
+  to_user: UserType;
+  from_user: UserType;
+  pokemon: PokemonType;
+  seen: boolean;
+}

@@ -1,11 +1,12 @@
 import type { ActionArgs, V2_MetaFunction } from '@remix-run/node';
-import { useActionData, useRouteLoaderData } from '@remix-run/react';
+import { useActionData } from '@remix-run/react';
 import { useState } from 'react';
 import { search } from '~/backend/search.server';
 import { PaginatedResponse, PokemonType } from '~/backend/types.server';
 import Card from '~/components/Card';
 import SearchBar from '~/components/SearchBar';
-import { LoaderData as RootLoaderData } from '~/root';
+import { useRootLoaderData } from '~/root';
+import Header from '~/components/Header';
 
 export const meta: V2_MetaFunction = () => {
   return [
@@ -21,7 +22,7 @@ export async function action({ request }: ActionArgs) {
 }
 
 export default function Index() {
-  const { user, likedPokemons } = useRouteLoaderData('root') as RootLoaderData;
+  const { user, likedPokemons } = useRootLoaderData();
   const [searchQuery, setSearchQuery] = useState('');
   const searchResults = useActionData() as
     | PaginatedResponse<PokemonType>
@@ -29,9 +30,10 @@ export default function Index() {
 
   return (
     <main>
+      <Header />
       <div className="flex flex-col py-30 items-center">
-        <span className="text-center py-10 text-3xl font-bold">
-          Hi {user?.username || 'Guest'}!
+        <span className="text-center py-10 text-3xl font-bold text-gray-900 dark:text-gray-50">
+          Hi{user ? ` ${user.username}` : ''}!
         </span>
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </div>

@@ -1,26 +1,22 @@
 import { buildConfig } from 'payload/config';
 import path from 'path';
 import Users from './collections/Users';
-import Admins from './collections/Admins';
 import Pokemons from './collections/Pokemons';
 import PokemonLikes from './collections/PokemonLikes';
+import Notifications from './collections/Notifications';
 
 export default buildConfig({
   serverURL: 'http://localhost:3000',
-  admin: {
-    user: Admins.slug,
-  },
+  admin: { disable: true },
   collections: [
     Users,
-    Admins,
     Pokemons,
     PokemonLikes,
+    Notifications,
   ],
   typescript: {
     outputFile: path.resolve(__dirname, 'payload-types.ts'),
   },
-  graphQL: {
-    schemaOutputFile: path.resolve(__dirname, 'generated-schema.graphql'),
-  },
+  graphQL: { disable: true },
   cors: ['http://localhost:3001']
 })

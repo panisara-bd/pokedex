@@ -25,7 +25,7 @@ export default function SignUpRoute() {
   const error = useActionData();
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900">
+    <section>
       <div className="relative flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <Pokeball className="z-0 absolute top-50 w-11/12 sm:w-3/5 fill-yellow-300 opacity-20" />
         <a

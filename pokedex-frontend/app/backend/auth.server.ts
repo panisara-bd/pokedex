@@ -81,3 +81,23 @@ export const signUp = async (params: SignUpParams) => {
     throw internalServerError();
   }
 };
+
+export const signOut = async (session: PokedexSession): Promise<void> => {
+  const token = session.get('token');
+
+  const response = await fetch(`${BASE_URL}/api/users/logout`, {
+    method: 'post',
+    headers: {
+      'authorization': `JWT ${token}`,
+      'content-type': 'application/json'
+    },
+  });
+
+  if (!response.ok) {
+    const status = response.status;
+    const responseText = await response.text();
+    console.error(
+      `Error signing out, status=${status}, responseText=${responseText}`
+    );
+  }
+};
