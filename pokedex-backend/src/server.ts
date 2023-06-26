@@ -3,15 +3,10 @@ import payload from 'payload';
 import nodemailerSendgrid from 'nodemailer-sendgrid';
 
 require('dotenv').config();
+const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 const app = express();
 
-// Redirect root to Admin panel
-app.get('/', (_, res) => {
-  res.redirect('/admin');
-});
-
 const start = async () => {
-  // Initialize Payload
   await payload.init({
     secret: process.env.PAYLOAD_SECRET,
     mongoURL: process.env.MONGODB_URI,
@@ -27,11 +22,8 @@ const start = async () => {
       payload.logger.info(`Payload Admin URL: ${payload.getAdminURL()}`)
     },
   })
-
   
-  // Add your own express routes here
-
-  app.listen(3000);
+  app.listen(PORT);
 }
 
 start();

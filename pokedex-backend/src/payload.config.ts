@@ -6,7 +6,7 @@ import PokemonLikes from './collections/PokemonLikes';
 import Notifications from './collections/Notifications';
 
 export default buildConfig({
-  serverURL: 'http://localhost:3000',
+  serverURL: process.env.SERVER_URL,
   admin: { disable: true },
   collections: [
     Users,
@@ -18,5 +18,5 @@ export default buildConfig({
     outputFile: path.resolve(__dirname, 'payload-types.ts'),
   },
   graphQL: { disable: true },
-  cors: ['http://localhost:3001']
+  cors: ['http://localhost:3001', 'https://pokedex-pani.vercel.app']
 })
