@@ -3,6 +3,7 @@ import { authenticatedFetch } from './authenticatedFetch.server';
 import { NotificationType, PaginatedResponse, PokemonLikeType } from './types.server';
 
 export const getNotifications = async (session: PokedexSession) => {
+  console.log('Fetching notifications');
   const userId = session.get('user')?.id;
   if (!userId) return [];
   
@@ -27,6 +28,6 @@ export const getNotifications = async (session: PokedexSession) => {
     notifications.push(...result.docs);
     nextPage = result.nextPage;
   } while (nextPage !== null);
-
+  console.log(`Fetched ${notifications.length} notifications`);
   return notifications;
 };

@@ -29,8 +29,10 @@ export const getLikes = async (id: string, type: 'pokemon' | 'user') => {
 };
 
 export const getMyLikedPokemons = async (session: PokedexSession) => {
+  console.log('Fetching my liked pokemons');
   const userId = session.get('user')?.id;
   if (!userId) return [];
   const likes = await getLikes(userId, 'user');
+  console.log(`Fetched ${likes.length} likes`);
   return likes.map((like) => like.pokemon);
 };
