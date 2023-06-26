@@ -1,5 +1,5 @@
 import Pokeball from './Pokeball';
-import { Link, useFetcher, useRouteLoaderData } from '@remix-run/react';
+import { useFetcher } from '@remix-run/react';
 import { useEffect } from 'react';
 import { PokemonType } from '~/backend/types.server';
 import { useRootLoaderData } from '~/root';
@@ -12,7 +12,7 @@ type Props = {
 };
 
 export default function Card({ pokemon }: Props) {
-  const { likedPokemons } = useRootLoaderData();
+  const { likedPokemons, user } = useRootLoaderData();
   const { id, image } = pokemon;
   const formattedName = formatPokemonName(pokemon.name);
   const isLiked = likedPokemons.some((likedPokemon) => likedPokemon.id === id);
@@ -44,23 +44,25 @@ export default function Card({ pokemon }: Props) {
           </p>
         )}
 
-        <likeActionFetcher.Form method="post" action={`pokemons/${id}`}>
-          {likeActionFetcher.state !== 'idle' ? (
-            <div role="status" className="animate-pulse">
-              <div className="h-9 w-16 bg-gray-300 rounded-lg dark:bg-gray-700"></div>
-            </div>
-          ) : (
-            <button
-              type="submit"
-              name="_action"
-              value={isLiked ? 'unlike' : 'like'}
-              className="bg-blue-100 hover:bg-yellow-300 dark:bg-blue-800 dark:hover:bg-yellow-900 dark:text-gray-50 flex items-center px-3 py-2 rounded-lg"
-            >
-              {isLiked ? <IconHeartFull /> : <IconHeart />}
-              <p className="pl-3 text-xs">{isLiked ? 'Unlike' : 'Like'}</p>
-            </button>
-          )}
-        </likeActionFetcher.Form>
+        {user && (
+          <likeActionFetcher.Form method="post" action={`pokemons/${id}`}>
+            {likeActionFetcher.state !== 'idle' ? (
+              <div role="status" className="animate-pulse">
+                <div className="h-9 w-16 bg-gray-300 rounded-lg dark:bg-gray-700"></div>
+              </div>
+            ) : (
+              <button
+                type="submit"
+                name="_action"
+                value={isLiked ? 'unlike' : 'like'}
+                className="bg-blue-100 hover:bg-yellow-300 dark:bg-blue-800 dark:hover:bg-yellow-900 dark:text-gray-50 flex items-center px-3 py-2 rounded-lg"
+              >
+                {isLiked ? <IconHeartFull /> : <IconHeart />}
+                <p className="pl-3 text-xs">{isLiked ? 'Unlike' : 'Like'}</p>
+              </button>
+            )}
+          </likeActionFetcher.Form>
+        )}
       </div>
       {image ? (
         <img
