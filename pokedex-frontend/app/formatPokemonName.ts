@@ -1,3 +1,3 @@
-export function formatPokemonName (name: string) {
-    return name.replace(/-/g, ' ')
+export function formatPokemonName(name: string) {
+  return name.replace(/-/g, ' ');
 }

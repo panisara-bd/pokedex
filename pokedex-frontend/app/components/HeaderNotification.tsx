@@ -12,10 +12,12 @@ export default function HeaderNotification({ notification }: Props) {
   const seenActionFetcher = useFetcher();
 
   useEffect(() => {
-    seenActionFetcher.submit(
-      {},
-      { method: 'post', action: `/notifications/${notification.id}` }
-    );
+    if (!notification.seen) {
+      seenActionFetcher.submit(
+        {},
+        { method: 'post', action: `/notifications/${notification.id}` }
+      );
+    }
   }, []);
 
   return (

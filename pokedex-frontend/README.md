@@ -1,4 +1,4 @@
-# Welcome to Remix!
+# pokedex-frontend
 
 - [Remix Docs](https://remix.run/docs)
 

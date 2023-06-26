@@ -4,10 +4,7 @@ const Users: CollectionConfig = {
   slug: 'users',
   timestamps: false,
   auth: {
-    verify: true,
-  },
-  admin: {
-    useAsTitle: 'email',
+    verify: false,
   },
   access: {
     create: () => true,

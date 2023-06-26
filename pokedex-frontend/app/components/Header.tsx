@@ -1,6 +1,5 @@
 import { useRootLoaderData } from '~/root';
 import HeaderButton from './HeaderButton';
-import IconBell from './IconBell';
 import { Form } from '@remix-run/react';
 import HeaderNotifications from './HeaderNotifications';
 

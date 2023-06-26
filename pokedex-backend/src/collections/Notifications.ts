@@ -4,7 +4,8 @@ const Notifications: CollectionConfig = {
   slug: 'notifications',
   access: {
     create: () => false,
-    read: ({ req: { user } }) => Boolean(user) && { to_user: { equals: user.id } },
+    read: ({ req: { user } }) =>
+      Boolean(user) && { to_user: { equals: user.id } },
     update: () => false,
     delete: () => false,
   },

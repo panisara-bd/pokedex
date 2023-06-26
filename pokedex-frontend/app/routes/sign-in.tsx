@@ -9,6 +9,7 @@ import {
   useRouteError,
   isRouteErrorResponse,
   useActionData,
+  Link,
 } from '@remix-run/react';
 import { signIn } from '~/backend/auth.server';
 import Pokeball from '~/components/Pokeball';
@@ -53,7 +54,7 @@ export default function SignInRoute() {
 
   return (
     <section>
-      <div className=" relative flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 bg-scroll">
+      <div className="relative flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 bg-scroll">
         <Pokeball className="z-0 absolute top-50 w-11/12 sm:w-3/5 fill-blue-400 opacity-10" />
         <a
           href="#"
@@ -93,6 +94,23 @@ export default function SignInRoute() {
                 placeholder="••••••••"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               />
+              <p className="text-gray-900 dark:text-gray-100 block text-center">
+                Don't have an account already?{' '}
+                <Link
+                  className="text-blue-900 dark:text-blue-100 inline underline"
+                  to="/sign-up"
+                >
+                  Sign up here!
+                </Link>
+                <br />
+                Or{' '}
+                <Link
+                  className="text-blue-900 dark:text-blue-100 inline underline"
+                  to="/"
+                >
+                  try out without an account.
+                </Link>
+              </p>
               <button
                 type="submit"
                 className="w-full text-white bg-black hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"

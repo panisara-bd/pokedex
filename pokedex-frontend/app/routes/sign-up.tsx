@@ -4,21 +4,29 @@ import {
   useRouteError,
   isRouteErrorResponse,
   useActionData,
+  Link,
 } from '@remix-run/react';
-import { signUp } from '~/backend/auth.server';
+import { signIn, signUp } from '~/backend/auth.server';
 import Pokeball from '~/components/Pokeball';
+import { commitSession, getSessionFromRequest } from '~/session.server';
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: 'Sign Up' }, { name: 'description', content: 'Sign Up' }];
 };
 
 export async function action({ request }: ActionArgs) {
+  const session = await getSessionFromRequest(request);
   const body = await request.formData();
   const email = body.get('email');
   const username = body.get('username');
   const password = body.get('password');
   await signUp({ email, username, password });
-  return redirect(`/`);
+  await signIn(email, password, session);
+  return redirect(`/`, {
+    headers: {
+      'set-cookie': await commitSession(session),
+    },
+  });
 }
 
 export default function SignUpRoute() {
@@ -78,6 +86,15 @@ export default function SignUpRoute() {
                 placeholder="••••••••"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               />
+              <p className="text-gray-900 dark:text-gray-100 block text-center">
+                Already have an account?{' '}
+                <Link
+                  className="text-blue-900 dark:text-blue-100 inline underline"
+                  to="/sign-in"
+                >
+                  Sign in here.
+                </Link>
+              </p>
               <button
                 type="submit"
                 className="w-full text-white bg-black hover:bg-gray-600  focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
@@ -95,7 +112,6 @@ export default function SignUpRoute() {
 
 export function ErrorBoundary() {
   const error = useRouteError();
-  console.log('hi', isRouteErrorResponse(error), error);
 
   if (isRouteErrorResponse(error)) {
     return (

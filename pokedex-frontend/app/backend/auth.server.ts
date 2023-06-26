@@ -88,8 +88,8 @@ export const signOut = async (session: PokedexSession): Promise<void> => {
   const response = await fetch(`${BASE_URL}/api/users/logout`, {
     method: 'post',
     headers: {
-      'authorization': `JWT ${token}`,
-      'content-type': 'application/json'
+      authorization: `JWT ${token}`,
+      'content-type': 'application/json',
     },
   });
 
