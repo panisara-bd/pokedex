@@ -20,8 +20,17 @@ export async function action({ request }: ActionArgs) {
   const email = body.get('email');
   const username = body.get('username');
   const password = body.get('password');
-  await signUp({ email, username, password });
-  await signIn(email, password, session);
+
+  try {
+    await signUp({ email, username, password });
+    await signIn(email, password, session);
+  } catch (error) {
+    if (error instanceof Response && [400, 401].includes(error.status))
+      return error;
+
+    throw error;
+  }
+
   return redirect(`/`, {
     headers: {
       'set-cookie': await commitSession(session),
@@ -101,7 +110,7 @@ export default function SignUpRoute() {
               >
                 Create an account
               </button>
-              {error ? <em>{error.message}</em> : null}
+              {error ? <em className="text-red-500">{error.message}</em> : null}
             </Form>
           </div>
         </div>
