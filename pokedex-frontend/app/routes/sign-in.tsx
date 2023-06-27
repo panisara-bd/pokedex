@@ -61,7 +61,7 @@ export default function SignInRoute() {
           className="z-10 flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
         >
           <p className=" text-black dark:text-white text-5xl font-bold mb-10">
-            Welcome back to Pokedex!
+            Welcome back to Pokédex!
           </p>
         </a>
         <div className="z-10 w-full bg-white bg-opacity-80 rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:bg-opacity-80 dark:border-gray-700">

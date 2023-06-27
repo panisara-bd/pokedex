@@ -11,8 +11,8 @@ import { invalidParameterError } from '~/backend/errors.server';
 
 export const meta: V2_MetaFunction = () => {
   return [
-    { title: 'Pokedex app by Panisara' },
-    { name: 'description', content: 'Welcome to Pokedex app by Panisara!' },
+    { title: 'Pokédex app by Panisara' },
+    { name: 'description', content: 'Welcome to Pokédex app by Panisara!' },
   ];
 };
 

@@ -1,5 +1,5 @@
 import Pokeball from './Pokeball';
-import { useFetcher } from '@remix-run/react';
+import { Link, useFetcher } from '@remix-run/react';
 import { PokemonType } from '~/backend/types.server';
 import { useRootLoaderData } from '~/root';
 import IconHeart from './IconHeart';
@@ -23,9 +23,10 @@ export default function Card({ pokemon }: Props) {
         <h1 className="capitalize mb-1 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
           {formattedName}
         </h1>
-        <p className="mb-4 font-bold text-gray-700 dark:text-gray-400">#{id}</p>
+        <p className="mb-1 font-bold text-gray-700 dark:text-gray-400">#{id}</p>
+        <Link to={`/pokemons/${id}`} className="text-blue-500 hover:underline text-sm">See more details</Link>
 
-        <p className="text-s mb-1.5 dark:text-gray-50">
+        <p className="text-s mt-4 mb-1.5 dark:text-gray-50">
           <span className="font-bold">{pokemonLikes[pokemon.id] || 0}</span>{' '}
           likes
         </p>

@@ -9,12 +9,8 @@ export const like = (pokemonId: string, session: PokedexSession) => {
   }
 
   return authenticatedFetch({
-    url: '/api/pokemon_likes',
+    url: `/api/pokemon_likes/pokemon/${pokemonId}/like`,
     method: 'post',
     session,
-    body: {
-      pokemon: pokemonId,
-      user: userId,
-    },
   });
 };

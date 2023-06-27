@@ -9,14 +9,8 @@ export const unlike = (pokemonId: string, session: PokedexSession) => {
   }
 
   return authenticatedFetch({
-    url: '/api/pokemon_likes',
+    url: `/api/pokemon_likes/pokemon/${pokemonId}/like`,
     method: 'delete',
     session,
-    queryString: {
-      where: {
-        pokemon: { equals: pokemonId },
-        user: { equals: userId },
-      },
-    },
   });
 };

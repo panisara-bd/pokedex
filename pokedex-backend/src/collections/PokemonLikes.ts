@@ -89,6 +89,58 @@ const PokemonLikes: CollectionConfig = {
         res.status(200).send(result);
       },
     },
+    {
+      path: '/pokemon/:id/like',
+      method: 'post',
+      handler: async (req, res) => {
+        const user = req.user;
+        const pokemonId = req.params.id;
+        if (!user) {
+          res
+            .status(401)
+            .send({
+              message: 'You need to be logged in in order to like a Pokemon.',
+            });
+          return;
+        }
+
+        await req.payload.create({
+          collection: 'pokemon_likes',
+          data: {
+            pokemon: pokemonId,
+            user: user.id,
+          },
+        });
+
+        res.sendStatus(201);
+      },
+    },
+    {
+      path: '/pokemon/:id/like',
+      method: 'delete',
+      handler: async (req, res) => {
+        const user = req.user;
+        const pokemonId = req.params.id;
+        if (!user) {
+          res
+            .status(401)
+            .send({
+              message: 'You need to be logged in in order to like a Pokemon.',
+            });
+          return;
+        }
+
+        await req.payload.delete({
+          collection: 'pokemon_likes',
+          where: {
+            pokemon: { equals: parseInt(pokemonId) },
+            user: { equals: user.id },
+          },
+        });
+
+        res.sendStatus(204);
+      },
+    },
   ],
 };
 
