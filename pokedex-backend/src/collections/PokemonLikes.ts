@@ -74,6 +74,22 @@ const PokemonLikes: CollectionConfig = {
       index: true,
     },
   ],
+  endpoints: [
+    {
+      path: '/counts',
+      method: 'get',
+      handler: async (req, res) => {
+        const model = req.payload.collections.pokemon_likes.Model;
+        const result = await model.aggregate([
+          { $project: { _id: 1, pokemon: 1 } },
+          { $unwind: '$pokemon' },
+          { $group: { _id: '$pokemon', count: { $sum: 1 } } },
+        ]);
+
+        res.status(200).send(result);
+      },
+    },
+  ],
 };
 
 export default PokemonLikes;

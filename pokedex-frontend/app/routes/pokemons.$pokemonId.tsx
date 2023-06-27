@@ -1,6 +1,5 @@
 import { type LoaderArgs, ActionArgs } from '@remix-run/node';
 import { invalidParameterError } from '~/backend/errors.server';
-import { getLikes } from '~/backend/getLikes.server';
 import { like } from '~/backend/like.server';
 import { unlike } from '~/backend/unlike.server';
 import { getSessionFromRequest } from '~/session.server';
@@ -23,11 +22,5 @@ export async function action({ request, params }: ActionArgs) {
 }
 
 export async function loader({ params }: LoaderArgs) {
-  const [pokemon, likes] = await Promise.all([
-    fetch(`https://pokeapi.co/api/v2/pokemon/${params.pokemonId}`),
-    getLikes(params.pokemonId!, 'pokemon'),
-  ]);
-
-  const likedByUsers = likes.map((like) => like.user.username);
-  return { pokemon, likedByUsers };
+  return await fetch(`https://pokeapi.co/api/v2/pokemon/${params.pokemonId}`);
 }

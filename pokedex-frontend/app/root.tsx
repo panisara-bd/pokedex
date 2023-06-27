@@ -15,26 +15,29 @@ import {
   PokedexSessionUser,
 } from './session.server';
 import { NotificationType, PokemonType } from './backend/types.server';
-import { getMyLikedPokemons } from './backend/getLikes.server';
+import { getMyLikedPokemons } from './backend/getMyLikedPokemons.server';
 import { getNotifications } from './backend/getNotifications.server';
+import { getPokemonLikes } from './backend/getPokemonLikes.server';
 
 export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
 
 export type LoaderData = {
   user: PokedexSessionUser | undefined;
   likedPokemons: PokemonType[];
+  pokemonLikes: Record<string, number>;
   notifications: NotificationType[];
 };
 
 export async function loader({ request }: LoaderArgs) {
   const session = await getSessionFromRequest(request);
   const user = session.get('user');
-  const [likedPokemons, notifications] = await Promise.all([
+  const [likedPokemons, notifications, pokemonLikes] = await Promise.all([
     getMyLikedPokemons(session),
     getNotifications(session),
+    getPokemonLikes(),
   ]);
   return json(
-    { user, likedPokemons, notifications },
+    { user, likedPokemons, pokemonLikes, notifications },
     {
       headers: {
         'set-cookie': await commitSession(session),

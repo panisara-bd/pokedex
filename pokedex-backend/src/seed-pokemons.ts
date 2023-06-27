@@ -26,7 +26,7 @@ const processBatch = async (batchUrl: string) => {
         collection: 'pokemons',
         data: {
           name: pokemon.name,
-          id: id.toString(),
+          id,
           image,
         },
       });

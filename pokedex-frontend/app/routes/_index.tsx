@@ -7,6 +7,7 @@ import Card from '~/components/Card';
 import SearchBar from '~/components/SearchBar';
 import { useRootLoaderData } from '~/root';
 import Header from '~/components/Header';
+import { invalidParameterError } from '~/backend/errors.server';
 
 export const meta: V2_MetaFunction = () => {
   return [
@@ -18,7 +19,12 @@ export const meta: V2_MetaFunction = () => {
 export async function action({ request }: ActionArgs) {
   const body = await request.formData();
   const query = body.get('query');
-  return await search(query);
+  const sortBy = body.get('sortBy');
+  const sortOrder = body.get('sortOrder');
+  if (sortBy !== 'name' && sortBy !== 'id')
+    throw invalidParameterError('You can only sort by name or id')
+  const sort = `${sortOrder === 'descending' ? '-' : ''}${sortBy}`;
+  return await search(query, sort);
 }
 
 export default function Index() {

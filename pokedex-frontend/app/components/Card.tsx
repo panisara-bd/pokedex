@@ -1,6 +1,5 @@
 import Pokeball from './Pokeball';
 import { useFetcher } from '@remix-run/react';
-import { useEffect } from 'react';
 import { PokemonType } from '~/backend/types.server';
 import { useRootLoaderData } from '~/root';
 import IconHeart from './IconHeart';
@@ -12,16 +11,11 @@ type Props = {
 };
 
 export default function Card({ pokemon }: Props) {
-  const { likedPokemons, user } = useRootLoaderData();
+  const { likedPokemons, pokemonLikes, user } = useRootLoaderData();
   const { id, image } = pokemon;
   const formattedName = formatPokemonName(pokemon.name);
   const isLiked = likedPokemons.some((likedPokemon) => likedPokemon.id === id);
   const likeActionFetcher = useFetcher();
-  const likeFetcher = useFetcher();
-
-  useEffect(() => {
-    likeFetcher.load(`/pokemons/${pokemon.id}`);
-  }, []);
 
   return (
     <div className="flex flex-row flex-wrap w-80 mx-10 sm:mx-0 gap-2 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -31,18 +25,10 @@ export default function Card({ pokemon }: Props) {
         </h1>
         <p className="mb-4 font-bold text-gray-700 dark:text-gray-400">#{id}</p>
 
-        {likeFetcher.data === undefined ? (
-          <div role="status" className="animate-pulse mt-1 mb-2">
-            <div className="h-4 w-20 bg-gray-200 rounded-full dark:bg-gray-700"></div>
-          </div>
-        ) : (
-          <p className="text-s mb-1.5 dark:text-gray-50">
-            <span className="font-bold">
-              {likeFetcher.data?.likedByUsers?.length}
-            </span>{' '}
-            likes
-          </p>
-        )}
+        <p className="text-s mb-1.5 dark:text-gray-50">
+          <span className="font-bold">{pokemonLikes[pokemon.id] || 0}</span>{' '}
+          likes
+        </p>
 
         {user && (
           <likeActionFetcher.Form method="post" action={`pokemons/${id}`}>

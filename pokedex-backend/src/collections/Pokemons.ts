@@ -12,7 +12,7 @@ const Pokemons: CollectionConfig = {
   fields: [
     {
       name: 'id',
-      type: 'text',
+      type: 'number',
     },
     {
       name: 'name',
